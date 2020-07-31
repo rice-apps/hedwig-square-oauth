@@ -38,7 +38,7 @@ function ReceiveOAuth() {
                 const data = {
                     accessCode: searchParams.get("code"),
                 };
-                const workerResponse = fetch(OBTAIN_TOKEN_WORKER, {
+                const workerResponse = await fetch(OBTAIN_TOKEN_WORKER, {
                     method: "POST",
                     mode: "cors",
                     cache: "no-cache",
