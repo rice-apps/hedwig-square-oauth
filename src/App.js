@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+} from "react-router-dom";
 import OAuthLink from "./OAuthLink";
 import ReceiveOAuth from "./ReceiveOAuth";
 import "./App.css";
