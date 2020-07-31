@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import OAuthLink from "./OAuthLink";
 import ReceiveOAuth from "./ReceiveOAuth";
-import "./App.css";
 
 function App() {
     return (
