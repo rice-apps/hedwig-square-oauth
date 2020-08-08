@@ -15,7 +15,12 @@ function ReceiveOAuth() {
 
     useEffect(() => {
         async function checkWithWorker() {
-            let changedResult;
+            let changedResult = (
+                <div>
+                    Sorry, but an unknown error has occurred. Please go{" "}
+                    <Link to="/onboard">here</Link> to sign up again.
+                </div>
+            );
 
             if (window.location.search === "") {
                 changedResult = (
@@ -38,6 +43,14 @@ function ReceiveOAuth() {
                 const data = {
                     accessCode: searchParams.get("code"),
                 };
+
+                changedResult = (
+                    <div>
+                        Your access code is invalid. Please attempt{" "}
+                        <Link to="/onboard">reauthorization here</Link>.
+                    </div>
+                );
+
                 const workerResponse = await fetch(OBTAIN_TOKEN_WORKER, {
                     method: "POST",
                     mode: "cors",
@@ -63,21 +76,7 @@ function ReceiveOAuth() {
                             <Link to="/onboard">the onboarding endpoint</Link>.
                         </div>
                     );
-                } else {
-                    changedResult = (
-                        <div>
-                            Your access code is invalid. Please attempt{" "}
-                            <Link to="/onboard">reauthorization here</Link>.
-                        </div>
-                    );
                 }
-            } else {
-                changedResult = (
-                    <div>
-                        Sorry, but an unknown error has occurred. Please go{" "}
-                        <Link to="/onboard">here</Link> to sign up again.
-                    </div>
-                );
             }
 
             setResult(changedResult);
