@@ -15,30 +15,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "standard --fix "
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "es2020": true
-    },
-    "extends": [
-      "react-app",
-      "plugin:react/recommended",
-      "airbnb",
-      "airbnb/hooks"
-    ],
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      },
-      "ecmaVersion": 11,
-      "sourceType": "module"
-    },
-    "plugins": [
-      "react"
-    ],
-    "rules": {}
+    "format": "prettier-standard --lint"
   },
   "browserslist": {
     "production": [
@@ -53,7 +30,6 @@
     ]
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
     "eslint": "^6.0.0",
     "eslint-config-airbnb": "18.2.0",
     "eslint-import-resolver-node": "^0.3.4",
@@ -61,7 +37,7 @@
     "eslint-plugin-jsx-a11y": "^6.3.0",
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "4.0.0",
-    "standard": "^14.3.4",
+    "prettier-standard": "^16.4.1",
     "typescript": "^3.9.7"
   }
 }
