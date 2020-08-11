@@ -13,8 +13,6 @@ const SQUARE_AUTH_PAGE = `${SQUARE_CONNECTION_BASE_URL}oauth2/authorize?client_i
 )}&state=82201dd8d83d23cc8a48caf52ba4f4fb`;
 
 function OAuthLink() {
-    let thing = 1;
-
     return (
         <LoginBox>
             <LoginLink onClick={() => window.open(SQUARE_AUTH_PAGE, "_self")}>
