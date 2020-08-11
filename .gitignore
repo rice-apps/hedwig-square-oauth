@@ -33,12 +33,14 @@ yarn-error.log*
 # .yarn/unplugged and .yarn/build-state.yml should likely always be ignored since
 # they typically hold machine-specific build artifacts. Ignoring them might however
 # prevent Zero-Installs from working (to prevent this, set enableScripts to false).
+
 .yarn/unplugged
 .yarn/build-state.yml
 
 # .yarn/cache and .pnp.* may be safely ignored, but you'll need to run yarn install
 # to regenerate them between each branch switch.
 # Uncomment the following lines if you're not using Zero-Installs:
+
 .yarn/cache
 .pnp.*
 
