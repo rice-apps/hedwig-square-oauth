@@ -1,23 +1,23 @@
 import { createGlobalStyle } from 'styled-components'
 
 const RootStyle = createGlobalStyle`
-body {
+  body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
+  }
 
-code {
+  code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
+  }
 
-#root {
+  #root {
     width: 100vw;
     height: 100vh;
     display: grid;
     place-items: center;
-}
+  }
 `
 
 export default RootStyle
