@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components'
 
 const RootStyle = createGlobalStyle`
 body {
@@ -18,6 +18,6 @@ code {
     display: grid;
     place-items: center;
 }
-`;
+`
 
-export default RootStyle;
+export default RootStyle

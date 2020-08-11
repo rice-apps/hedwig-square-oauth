@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const LoginBox = styled.div`
   width: 50vw;
@@ -7,7 +7,7 @@ const LoginBox = styled.div`
   place-items: center;
   background-color: #ffa07a;
   border-radius: 1vw;
-`;
+`
 
 const LoginLink = styled.button`
   background-color: #7ad9ff;
@@ -20,6 +20,6 @@ const LoginLink = styled.button`
   &:hover {
     cursor: pointer;
   }
-`;
+`
 
-export { LoginBox, LoginLink };
+export { LoginBox, LoginLink }
