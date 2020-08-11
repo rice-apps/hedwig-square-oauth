@@ -1,40 +1,52 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 
 import { OBTAIN_TOKEN_WORKER } from './config'
+import { MessageBox, MessageLink } from './ReceiveOAuth.styles'
 
 function ReceiveOAuth () {
   const searchParams = new URLSearchParams(window.location.search)
   const [result, setResult] = useState(
-    <div>
-      Something went wrong. You must <Link to='/onboard'>sign up here</Link>{' '}
-      with your Square account to see this page.
-    </div>
+    <MessageBox>
+      <div>
+        Something went wrong. You must{' '}
+        <MessageLink to='/onboard'>sign up here</MessageLink> with your Square
+        account to see this page.
+      </div>
+    </MessageBox>
   )
 
   useEffect(() => {
     async function checkWithWorker () {
       let changedResult = (
-        <div>
-          Sorry, but an unknown error has occurred. Please go{' '}
-          <Link to='/onboard'>here</Link> to sign up again.
-        </div>
+        <MessageBox>
+          <div>
+            Sorry, but an unknown error has occurred. Please go{' '}
+            <MessageLink to='/onboard'>here</MessageLink> to sign up again.
+          </div>
+        </MessageBox>
       )
 
       if (window.location.search === '') {
         changedResult = (
-          <div>
-            Sorry, you must <Link to='/onboard'>sign up here</Link> with your
-            Square account to see this page.
-          </div>
+          <MessageBox>
+            <div>
+              Sorry, you must{' '}
+              <MessageLink to='/onboard'>sign up here</MessageLink> with your
+              Square account to see this page.
+            </div>
+          </MessageBox>
         )
       } else if (searchParams.has('error')) {
         changedResult = (
-          <div>
-            Sorry! Signup failed with code ${searchParams.get('error')} for
-            reason ${searchParams.get('error_description')}. If you believe this
-            is a mistake, <Link to='/onboard'>please sign up again here</Link>.
-          </div>
+          <MessageBox>
+            <div>
+              Sorry! Signup failed with code ${searchParams.get('error')} for
+              reason ${searchParams.get('error_description')}. If you believe
+              this is a mistake,{' '}
+              <MessageLink to='/onboard'>please sign up again here</MessageLink>
+              .
+            </div>
+          </MessageBox>
         )
       } else if (searchParams.has('code')) {
         const data = {
@@ -42,10 +54,12 @@ function ReceiveOAuth () {
         }
 
         changedResult = (
-          <div>
-            Your access code is invalid. Please attempt{' '}
-            <Link to='/onboard'>reauthorization here</Link>.
-          </div>
+          <MessageBox>
+            <div>
+              Your access code is invalid. Please attempt{' '}
+              <MessageLink to='/onboard'>reauthorization here</MessageLink>.
+            </div>
+          </MessageBox>
         )
 
         const workerResponse = await window.fetch(OBTAIN_TOKEN_WORKER, {
@@ -60,17 +74,22 @@ function ReceiveOAuth () {
 
         if (workerResponse.status === 200) {
           changedResult = (
-            <div>
-              Thanks for signing up with Hedwig! Your vendor page will be ready
-              shortly.
-            </div>
+            <MessageBox>
+              <div>
+                Thanks for signing up with Hedwig! Your vendor page will be
+                ready shortly.
+              </div>
+            </MessageBox>
           )
         } else if (workerResponse.status === 405) {
           changedResult = (
-            <div>
-              Please don't attempt to use anything other than POST. Go back to{' '}
-              <Link to='/onboard'>the onboarding endpoint</Link>.
-            </div>
+            <MessageBox>
+              <div>
+                Please don't attempt to use anything other than POST. Go back to{' '}
+                <MessageLink to='/onboard'>the onboarding endpoint</MessageLink>
+                .
+              </div>
+            </MessageBox>
           )
         }
       }
