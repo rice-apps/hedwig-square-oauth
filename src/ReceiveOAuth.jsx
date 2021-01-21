@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
 import { OBTAIN_TOKEN_WORKER } from './config'
 import { MessageBox, MessageLink } from './ReceiveOAuth.styles'

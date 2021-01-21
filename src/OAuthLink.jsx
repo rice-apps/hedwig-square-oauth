@@ -1,5 +1,3 @@
-import React from 'react'
-
 import {
   SQUARE_CONNECTION_BASE_URL,
   SQUARE_CLIENT_ID,
