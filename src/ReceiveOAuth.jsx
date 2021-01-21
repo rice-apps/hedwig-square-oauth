@@ -1,65 +1,72 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import { OBTAIN_TOKEN_WORKER } from './config'
-import { MessageBox, MessageLink } from './ReceiveOAuth.styles'
 
 function ReceiveOAuth () {
   const searchParams = new URLSearchParams(window.location.search)
   const [result, setResult] = useState(
-    <MessageBox>
+    <div>
       <div>
-        Something went wrong. You must{' '}
-        <MessageLink to='/onboard'>sign up here</MessageLink> with your Square
-        account to see this page.
+        Something went wrong. You must <Link to='/onboard'>sign up here</Link>{' '}
+        with your Square account to see this page.
       </div>
-    </MessageBox>
+    </div>
   )
 
   useEffect(() => {
     async function checkWithWorker () {
       let changedResult = (
-        <MessageBox>
+        <div>
           <div>
             Sorry, but an unknown error has occurred. Please go{' '}
-            <MessageLink to='/onboard'>here</MessageLink> to sign up again.
+            <Link to='/onboard'>here</Link> to sign up again.
           </div>
-        </MessageBox>
+        </div>
       )
 
       if (window.location.search === '') {
         changedResult = (
-          <MessageBox>
+          <div>
             <div>
-              Sorry, you must{' '}
-              <MessageLink to='/onboard'>sign up here</MessageLink> with your
+              Sorry, you must <Link to='/onboard'>sign up here</Link> with your
               Square account to see this page.
             </div>
-          </MessageBox>
+          </div>
+        )
+      } else if (Cookies.get('authState') !== searchParams.get('state')) {
+        changedResult = (
+          <div>
+            <div>
+              Sorry, your authorization was invalid. Please try again by{' '}
+              <Link to='/onboard'>returning to the sign up page here</Link>.
+            </div>
+          </div>
         )
       } else if (searchParams.has('error')) {
         changedResult = (
-          <MessageBox>
+          <div>
             <div>
               Sorry! Signup failed with code ${searchParams.get('error')} for
               reason ${searchParams.get('error_description')}. If you believe
               this is a mistake,{' '}
-              <MessageLink to='/onboard'>please sign up again here</MessageLink>
-              .
+              <Link to='/onboard'>please sign up again here</Link>.
             </div>
-          </MessageBox>
+          </div>
         )
       } else if (searchParams.has('code')) {
         const data = {
+          merchantName: Cookies.get('merchantName'),
           accessCode: searchParams.get('code')
         }
 
         changedResult = (
-          <MessageBox>
+          <div>
             <div>
               Your access code is invalid. Please attempt{' '}
-              <MessageLink to='/onboard'>reauthorization here</MessageLink>.
+              <Link to='/onboard'>reauthorization here</Link>.
             </div>
-          </MessageBox>
+          </div>
         )
 
         const workerResponse = await window.fetch(OBTAIN_TOKEN_WORKER, {
@@ -74,22 +81,21 @@ function ReceiveOAuth () {
 
         if (workerResponse.status === 200) {
           changedResult = (
-            <MessageBox>
+            <div>
               <div>
                 Thanks for signing up with Hedwig! Your vendor page will be
                 ready shortly.
               </div>
-            </MessageBox>
+            </div>
           )
         } else if (workerResponse.status === 405) {
           changedResult = (
-            <MessageBox>
+            <div>
               <div>
                 Please don't attempt to use anything other than POST. Go back to{' '}
-                <MessageLink to='/onboard'>the onboarding endpoint</MessageLink>
-                .
+                <Link to='/onboard'>the onboarding endpoint</Link>.
               </div>
-            </MessageBox>
+            </div>
           )
         }
       }
