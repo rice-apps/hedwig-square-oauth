@@ -8,7 +8,7 @@ import Cookies from 'js-cookie'
 import crypto from 'crypto'
 import { useState } from 'react'
 
-const getOAuthLink = (merchantName, slug) => {
+const getOAuthLink = () => {
   const date = new Date()
   const unixTime = date.getTime()
   const authState = crypto
@@ -56,8 +56,7 @@ function OAuthLink () {
           type='text'
           value={slug}
           onChange={e =>
-            setSlug(e.target.value.toLowerCase().replace(/\s+/g, ''))
-          }
+            setSlug(e.target.value.toLowerCase().replace(/\s+/g, ''))}
         />
       </label>
       <input type='submit' value='Grant Access' />

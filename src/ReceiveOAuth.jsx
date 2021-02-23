@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Cookies from 'js-cookie'
 
-import { OBTAIN_TOKEN_WORKER } from './config'
+import { GRAPHQL_URL } from './config'
 
 function ReceiveOAuth () {
   const searchParams = new URLSearchParams(window.location.search)
@@ -62,17 +62,14 @@ function ReceiveOAuth () {
       } else if (searchParams.has('code')) {
         changedResult = (
           <div>
-            <div>
-              Your access code is invalid. Please attempt{' '}
-              <Link to='/onboard'>reauthorization here</Link>.
-            </div>
+            Loading...
           </div>
         )
 
         console.log(Cookies.get('merchantName'))
 
         const workerResponse = await window.fetch(
-          'http://localhost:3001/graphql',
+          GRAPHQL_URL,
           {
             method: 'POST',
             mode: 'cors',
@@ -84,9 +81,9 @@ function ReceiveOAuth () {
             body: JSON.stringify({
               query: mutation,
               variables: {
-                "vendorName": Cookies.get('merchantName'),
-                "slug": Cookies.get('slug'),
-                "code": searchParams.get('code')
+                vendorName: Cookies.get('merchantName'),
+                slug: Cookies.get('slug'),
+                code: searchParams.get('code')
               }
             })
           }
@@ -107,6 +104,15 @@ function ReceiveOAuth () {
               <div>
                 Please don't attempt to use anything other than POST. Go back to{' '}
                 <Link to='/onboard'>the onboarding endpoint</Link>.
+              </div>
+            </div>
+          )
+        } else if (workerResponse.status === 400) {
+          changedResult = (
+            <div>
+              <div>
+                Your access code is invalid. Please attempt{' '}
+                <Link to='/onboard'>reauthorization here</Link>.
               </div>
             </div>
           )
