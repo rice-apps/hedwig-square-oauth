@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import Cookies from 'js-cookie'
 
 import { OBTAIN_TOKEN_WORKER } from './config'
 
@@ -13,6 +14,10 @@ function ReceiveOAuth () {
       </div>
     </div>
   )
+
+  const mutation = `mutation SetTokens($vendorName: String!, $slug: String!, $code: String!) {
+    setupSquareTokens(vendorName: $vendorName, slug: $slug, code: $code)
+  }`
 
   useEffect(() => {
     async function checkWithWorker () {
@@ -55,11 +60,6 @@ function ReceiveOAuth () {
           </div>
         )
       } else if (searchParams.has('code')) {
-        const data = {
-          merchantName: Cookies.get('merchantName'),
-          accessCode: searchParams.get('code')
-        }
-
         changedResult = (
           <div>
             <div>
@@ -69,15 +69,28 @@ function ReceiveOAuth () {
           </div>
         )
 
-        const workerResponse = await window.fetch(OBTAIN_TOKEN_WORKER, {
-          method: 'POST',
-          mode: 'cors',
-          cache: 'no-cache',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
+        console.log(Cookies.get('merchantName'))
+
+        const workerResponse = await window.fetch(
+          'http://localhost:3001/graphql',
+          {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json'
+            },
+            body: JSON.stringify({
+              query: mutation,
+              variables: {
+                "vendorName": Cookies.get('merchantName'),
+                "slug": Cookies.get('slug'),
+                "code": searchParams.get('code')
+              }
+            })
+          }
+        )
 
         if (workerResponse.status === 200) {
           changedResult = (
@@ -104,7 +117,7 @@ function ReceiveOAuth () {
     }
 
     checkWithWorker()
-  }, [searchParams])
+  }, [])
 
   return result
 }

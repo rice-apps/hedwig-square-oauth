@@ -8,7 +8,7 @@ import Cookies from 'js-cookie'
 import crypto from 'crypto'
 import { useState } from 'react'
 
-const getOAuthLink = () => {
+const getOAuthLink = (merchantName, slug) => {
   const date = new Date()
   const unixTime = date.getTime()
   const authState = crypto
@@ -27,15 +27,19 @@ const getOAuthLink = () => {
 
 function OAuthLink () {
   const [name, setName] = useState('')
+  const [slug, setSlug] = useState('')
 
   return (
     <form
       onSubmit={e => {
         e.preventDefault()
         Cookies.set('merchantName', name, {
-          expires: new Date(new Date() + 5 * 60 * 1000)
+          expires: new Date(new Date().getTime() + 5 * 60 * 1000)
         })
-        window.open(getOAuthLink(), '_self')
+        Cookies.set('slug', slug, {
+          expires: new Date(new Date().getTime() + 5 * 60 * 1000)
+        })
+        window.open(getOAuthLink(name, slug), '_self')
       }}
     >
       <label>
@@ -44,6 +48,16 @@ function OAuthLink () {
           type='text'
           value={name}
           onChange={e => setName(e.target.value)}
+        />
+      </label>
+      <label>
+        Slug:
+        <input
+          type='text'
+          value={slug}
+          onChange={e =>
+            setSlug(e.target.value.toLowerCase().replace(/\s+/g, ''))
+          }
         />
       </label>
       <input type='submit' value='Grant Access' />
